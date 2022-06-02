@@ -31,12 +31,17 @@ def do_call(env, args):
     params, body = func[1], func[2]
     assert len(values) == len(params)
 
+
     # Run in new environment.
     env.append(dict(zip(params, values)))
     result = do(env, body)
     env.pop()
 
     # Report.
+    assert "debug" in env[0]
+    if env[0]["debug"]:
+        print(f"{name}({', '.join(params)}): {result}")
+
     return result
 
 
@@ -213,6 +218,19 @@ def env_set(env, name, value):
 
 
 if __name__ == "__main__":
+    # load in debug flag
+    print(sys.argv)
+
+    if len(sys.argv) > 1:
+        if "--debug" in sys.argv:
+            debug = True
+        else:
+            debug = False
+    else:
+        debug = False
+
     program = json.load(sys.stdin)
-    result = do([{}], program)
+
+    # Initialize the environment with the debug flag.
+    result = do([{"debug": debug}], program)
     print("=>", result)

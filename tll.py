@@ -30,7 +30,14 @@ def do_get(env, args):
     """
     assert len(args) == 1
     assert args[0] in env, f"Unknown variable {args[0]}"
-    return env[args[0]]
+
+    # get the index of the variable 
+    # then retrieve the variable
+    idx = env[args[0]]
+
+
+    assert "stack" in env, "stack not found, initialize array first"
+    return env['stack'][idx]
 
 
 def do_gt(env, args):
@@ -123,6 +130,21 @@ def do_seq(env, args):
         result = do(env, a)
     return result
 
+def do_array(env, args):
+    """Makes a fixed-size 1D array.
+
+    ["array" name length] => [0, ..., 0] 
+    """
+    assert len(args) == 2 # need both name and length
+    name = do(env, args[0])
+    count = do(env, args[1])
+
+    if name == "new":
+        env["stack"] = [None] * count # this is a list, not a fixed-size array....
+        env["ip"] = 0 # instruction pointer, like in the book
+    else:
+        raise NotImplementedError("array name must be 'new'")
+
 
 def do_set(env, args):
     """Assign to a variable.
@@ -131,8 +153,19 @@ def do_set(env, args):
     """
     assert len(args) == 2
     assert isinstance(args[0], str)
+    name = do(env, args[0])
     value = do(env, args[1])
-    env[args[0]] = value
+
+    assert "stack" in env, "stack not found, initialize array first"
+    env["stack"][env["ip"]] = value
+    
+    # Store the current position as the index of the variable
+    env[args[0]] = env["ip"]
+
+    # Then increment the index
+    env["ip"] += 1
+
+
     return value
 
 

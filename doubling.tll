@@ -1,6 +1,7 @@
 [
     "seq",
     ["comment", "Double a number repeatedly"],
+    ["array", "new", 10],
     ["set", "a", 1],
     ["print", "initial", ["get", "a"]],
     [

@@ -112,12 +112,15 @@ def do_print(env, args):
 def do_repeat(env, args):
     """Repeat instructions some number of times.
 
-    ["repeat" N expr] => expr # last one of N
+    name is the name of the counter variable
+
+    ["repeat" N expr name] => expr # last one of N
     """
-    assert len(args) == 2
+    assert len(args) == 3
     count = do(env, args[0])
     for i in range(count):
         result = do(env, args[1])
+        result = do(env, ["set", args[2], i])
     return result
 
 

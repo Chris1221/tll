@@ -19,6 +19,7 @@ this program that starts with the number 1 and doubles it four times:
 [
     "seq",
     ["comment", "Double a number repeatedly"],
+    ["array", "new", 10]
     ["set", "a", 1],
     ["print", "initial", ["get", "a"]],
     [
@@ -78,6 +79,8 @@ It's really that simple.
     `["array", "new", 10]` creates an array of 10 elements,
     while other instructions get and set particular array elements by index.
 
+    - I made the `do_array` function. I'm not sure how to approach the second part though. Should I add another argument to specify the index? Or put the variable onto the list like the stack? 
+
 2.  Add a `while` loop to TLL.
 
 3.  The `"repeat"` instruction runs some other instruction(s) several times,
@@ -86,6 +89,8 @@ It's really that simple.
     (Hint: allow people to create a new variable to hold the loop counter's current value.)
 
 4.  Explain how the table `OPERATIONS` is constructed.
+
+    - This is basically the same as the macro in C, a little different in its logic though. It looks for functions in the global scope (didn't know you could call .items in the globals function) if their name starts with "do_"
 
 5.  Several of the instruction functions started with `assert` statements,
     which means that users get a stack trace of TLL itself

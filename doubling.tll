@@ -15,6 +15,7 @@
 		["print", "small", ["get", "a"]],
 		["print", "large", ["get", "a"]]
 	    ]
-        ]
+        ], 
+        "i"
     ]
 ]
